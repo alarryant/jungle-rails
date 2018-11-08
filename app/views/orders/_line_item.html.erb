@@ -1,16 +1,22 @@
 <tr>
   <td>
-    <%= image_tag product.image.tiny %>
+    <%= image_tag line_item.product.image.tiny %>
   </td>
+  <br>
   <td>
-    <h4><%= product.name %></h4>
+    <h5>Product Name: </h5>
     <br>
-    <p><%= product.description %></p>
+    <%= line_item.product.name %>
   </td>
   <td>
-    <%= product.price %>
+    <h5>Total Price: </h5>
+    <br>
+    <%= number_to_currency(line_item.total_price_cents / 100)%>
   </td>
   <td>
-    <%= product.quantity %>
+    <h5>Quantity Ordered: </h5>
+    <br>
+    <%= line_item.quantity %>
+    <br>
   </td>
 </tr>
