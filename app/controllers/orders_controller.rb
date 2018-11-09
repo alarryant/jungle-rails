@@ -42,6 +42,10 @@ class OrdersController < ApplicationController
       stripe_charge_id: stripe_charge.id, # returned by stripe
     )
 
+    @user = User.find_by email: order.email
+    @order = Order.find_by email: order.email
+    p @user
+
     enhanced_cart.each do |entry|
       product = entry[:product]
       quantity = entry[:quantity]
@@ -53,6 +57,10 @@ class OrdersController < ApplicationController
       )
     end
     order.save!
+      if order.save
+        UserMailer.receipt_email(@user.email, @order.id).deliver_now
+      end
+
     order
   end
 
