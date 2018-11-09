@@ -2,6 +2,7 @@ class OrdersController < ApplicationController
 
   def show
     @order = Order.find(params[:id])
+    @user = User.find_by id: session[:user_id]
   end
 
   def create
@@ -27,10 +28,13 @@ class OrdersController < ApplicationController
   end
 
   def perform_stripe_charge
+
+    @user = User.find_by id: session[:user_id]
+
     Stripe::Charge.create(
       source:      params[:stripeToken],
       amount:      cart_subtotal_cents,
-      description: "Khurram Virani's Jungle Order",
+      description: "#{@user.first_name} #{@user.last_name}'s Jungle Order",
       currency:    'cad'
     )
   end
@@ -42,9 +46,9 @@ class OrdersController < ApplicationController
       stripe_charge_id: stripe_charge.id, # returned by stripe
     )
 
-    @user = User.find_by email: order.email
-    @order = Order.find_by email: order.email
-    p @user
+    @user = User.find_by id: session[:user_id]
+    @order = Order.last
+    @order_id = @order.id + 1
 
     enhanced_cart.each do |entry|
       product = entry[:product]
@@ -58,7 +62,7 @@ class OrdersController < ApplicationController
     end
     order.save!
       if order.save
-        UserMailer.receipt_email(@user.email, @order.id).deliver_now
+        UserMailer.receipt_email(@user.email, @order_id).deliver_now
       end
 
     order

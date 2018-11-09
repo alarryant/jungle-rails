@@ -3,10 +3,10 @@
   <header class="page-header">
     <h1>My Cart</h1>
   </header>
-
   <% if enhanced_cart.count == 0 %>
-    <h1>Yo your cart is empty dum dum</h1>
-    <%= link_to 'Products', products_path %>
+    <div class="emptycart">
+      <h3>Your cart is empty! Browse <%= link_to 'products', :root %> to add to your cart.</h3>
+    </div>
   <% else %>
   <div class="panel panel-default items">
     <table class="table table-bordered">
