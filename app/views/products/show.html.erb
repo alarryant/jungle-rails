@@ -25,7 +25,29 @@
         </dl>
       </div>
     </div>
-
+    <br>
+    <br>
+    <% if @current_user_id && !@user_reviewed%>
+      <div class="col-sm-4">
+        <%= form_for [@product, @product.reviews.create] do |f| %>
+          <%= f.text_area :description, size: "60x12" %>
+          <%= f.select :rating, [['Amazing', 5], ['Good', 4], ['Average', 3], ['Poor', 2], ['Terrible', 1]] %>
+          <%= f.submit "Submit Review" %>
+        <% end %>
+      </div>
+    <% elsif @current_user_id && @user_reviewed %>
+      <h4>Thanks for leaving a review!</h4>
+    <% else %>
+      <h5>Please login to leave a review.</h5>
+    <% end %>
+    <div class="col-sm-8">
+      <dl class="dl-horizontal">
+        <dd><h3>Reviews</h3></dd>
+        <% @reviews.each do |review| %>
+          <%= render 'review', review: review %>
+        <% end %>
+      </dl>
+    </div>
   </article>
 
 </section>

@@ -1,0 +1,12 @@
+<dt>User</dt>
+<dd><%= review.user.first_name %></dd>
+<dt>Review</dt>
+<dd><%= review.description %></dd>
+<dt>Rating</dt>
+<dd><%= review.rating %>/5</dd>
+<dt>Delete?</dt>
+<dd>
+  <% if review.user_id == @current_user_id %>
+    <%= link_to fa_icon('trash'), :product, class: 'btn btn-sm btn-danger', method: :delete, data: { confirm: "Are you sure?" } %>
+  <% end %>
+</dd>

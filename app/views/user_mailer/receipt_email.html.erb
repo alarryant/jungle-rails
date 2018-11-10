@@ -3,7 +3,50 @@
   <head>
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
   </head>
-<%= @user %>
-<%= @order %>
+
+  <h5>Thank you for your order.</h5>
+
+  <p>Here is a summary of what you have ordered:</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Product Name</th>
+        <th>Description</th>
+        <th>Quantity Ordered</th>
+        <th>Total Price</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @lineitems.each do |line_item| %>
+        <tr>
+          <td>
+            <%= line_item.product.name %>
+            <br>
+            <%= image_tag line_item.product.image.tiny %>
+          </td>
+          <td>
+            <%= line_item.product.description %>
+          <td>
+            <%= line_item.quantity %>
+          </td>
+            <td>
+            <%= number_to_currency(line_item.total_price_cents / 100)%>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+    <tfoot>
+      <tr>
+        <th colspan="2">
+        </th>
+        <th>
+          TOTAL:
+        </th>
+        <th>
+        <%= number_to_currency(@order.total_cents / 100) %>
+        </th>
+      </tr>
+    </tfoot>
+  </table>
 
 </html>

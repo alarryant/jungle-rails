@@ -47,8 +47,6 @@ class OrdersController < ApplicationController
     )
 
     @user = User.find_by id: session[:user_id]
-    @order = Order.last
-    @order_id = @order.id + 1
 
     enhanced_cart.each do |entry|
       product = entry[:product]
@@ -62,7 +60,9 @@ class OrdersController < ApplicationController
     end
     order.save!
       if order.save
-        UserMailer.receipt_email(@user.email, @order_id).deliver_now
+        @order = Order.all.last
+        @lineitems = LineItem.where(order_id: @order.id)
+        UserMailer.receipt_email(@user, @order, @lineitems).deliver_now
       end
 
     order
