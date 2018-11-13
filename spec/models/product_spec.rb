@@ -10,7 +10,6 @@ RSpec.describe Product, type: :model do
 
   describe 'Validations' do
     it 'is valid with valid attributes' do
-      puts "The category id is #{category.id}"
       expect(subject).to be_valid
     end
 
