@@ -17,15 +17,15 @@ RSpec.feature "Visitor navigates to home page", type: :feature, js: true do
     end
   end
 
-  scenario "navigating to the product details page" do
+  scenario "adding product to cart" do
 
     visit root_path
 
-    click_link(@category.products.first.name)
+    first('button.btn-primary').click
 
     save_screenshot
 
-    expect(page).to have_current_path("/products/1")
+    expect(page).to have_text 'My Cart (1)'
 
   end
 end
